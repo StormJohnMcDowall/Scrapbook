@@ -10,7 +10,8 @@
         d:DataContext="{d:DesignInstance vm:MainViewModel}"
         Title="Scrapbook"
         Width="420" Height="560" MinWidth="320" MinHeight="240"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Topmost="{Binding AlwaysOnTop}">
     <DockPanel>
         <!-- Top bar -->
         <Border DockPanel.Dock="Top" Padding="12,10" BorderThickness="0,0,0,1"
