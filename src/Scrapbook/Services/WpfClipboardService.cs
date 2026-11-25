@@ -25,25 +25,16 @@ public sealed class WpfClipboardService : IClipboardService
             data.SetData(CanUploadToCloud, new MemoryStream(BitConverter.GetBytes(0)));
         }
 
-        // Another app can briefly hold the clipboard open; retry for up to ~0.5s.
-        for (var attempt = 1; ; attempt++)
+        // WPF already retries internally (~1s) when another app briefly holds the clipboard open.
+        // Don't add a retry loop on top: it would freeze the window mid-demo.
+        try
         {
-            try
-            {
-                Clipboard.SetDataObject(data, copy: true);
-                return true;
-            }
-            catch (ExternalException) when (attempt < MaxAttempts)
-            {
-                Thread.Sleep(RetryDelayMs);
-            }
-            catch (ExternalException)
-            {
-                return false;
-            }
+            Clipboard.SetDataObject(data, copy: true);
+            return true;
+        }
+        catch (ExternalException)
+        {
+            return false;
         }
     }
-
-    private const int MaxAttempts = 10;
-    private const int RetryDelayMs = 50;
 }
