@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/Scrapbook.Core/Scrapbook.Core.csproj" />
+    <Project Path="src/Scrapbook/Scrapbook.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Scrapbook.Core.Tests/Scrapbook.Core.Tests.csproj" />
