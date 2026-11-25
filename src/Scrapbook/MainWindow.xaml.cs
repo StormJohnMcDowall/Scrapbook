@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Threading;
 using Scrapbook.Core;
 using Scrapbook.Core.ViewModels;
@@ -90,6 +91,48 @@ public partial class MainWindow : Window
         {
             // Window settings are a convenience; losing them is not worth interrupting a demo.
         }
+    }
+
+    // ---- Drag-to-reorder (handle only visible in Edit mode; MoveItem also refuses when locked) ----
+
+    private Point _dragStart;
+    private ItemViewModel? _dragCandidate;
+
+    private void OnHandleMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        _dragStart = e.GetPosition(this);
+        _dragCandidate = (sender as FrameworkElement)?.DataContext as ItemViewModel;
+    }
+
+    private void OnHandleMouseMove(object sender, MouseEventArgs e)
+    {
+        if (_dragCandidate is null || e.LeftButton != MouseButtonState.Pressed || !_vm.IsEditing) return;
+
+        var delta = e.GetPosition(this) - _dragStart;
+        if (Math.Abs(delta.X) < SystemParameters.MinimumHorizontalDragDistance &&
+            Math.Abs(delta.Y) < SystemParameters.MinimumVerticalDragDistance) return;
+
+        var item = _dragCandidate;
+        _dragCandidate = null;
+        DragDrop.DoDragDrop((DependencyObject)sender, new DataObject(typeof(ItemViewModel), item), DragDropEffects.Move);
+    }
+
+    private void OnRowDragOver(object sender, DragEventArgs e)
+    {
+        e.Effects = e.Data.GetDataPresent(typeof(ItemViewModel)) && _vm.IsEditing ? DragDropEffects.Move : DragDropEffects.None;
+        e.Handled = true;
+    }
+
+    private void OnRowDrop(object sender, DragEventArgs e)
+    {
+        if (e.Data.GetData(typeof(ItemViewModel)) is not ItemViewModel dragged) return;
+
+        // Dropping on a row moves the dragged item into that row's position; below all rows, to the end.
+        var target = (e.OriginalSource as FrameworkElement)?.DataContext as ItemViewModel;
+        var from = _vm.Items.IndexOf(dragged);
+        var to = target is null ? _vm.Items.Count - 1 : _vm.Items.IndexOf(target);
+        if (from >= 0 && to >= 0) _vm.MoveItem(from, to);
+        e.Handled = true;
     }
 
     private void OnItemAdded(object? sender, ItemViewModel item)

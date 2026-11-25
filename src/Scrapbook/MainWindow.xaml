@@ -40,10 +40,19 @@
                        Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVisibility}}" />
 
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                <ItemsControl x:Name="ItemsList" ItemsSource="{Binding Items}" Margin="0,4">
+                <ItemsControl x:Name="ItemsList" ItemsSource="{Binding Items}" Margin="0,4"
+                              AllowDrop="True" PreviewDragOver="OnRowDragOver" PreviewDrop="OnRowDrop">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="{x:Type vm:ItemViewModel}">
-                            <Border x:Name="Row" Padding="12,6">
+                            <Border x:Name="Row" Padding="12,6" Background="Transparent">
+                                <DockPanel>
+                                <!-- Drag handle (Edit mode only) -->
+                                <TextBlock DockPanel.Dock="Left" Text="⋮⋮" FontSize="16" Opacity="0.6"
+                                           Margin="0,0,8,0" Padding="2,0" VerticalAlignment="Center"
+                                           Background="Transparent" Cursor="SizeAll" ToolTip="Drag to reorder"
+                                           PreviewMouseLeftButtonDown="OnHandleMouseDown"
+                                           PreviewMouseMove="OnHandleMouseMove"
+                                           Visibility="{Binding IsEditable, Converter={StaticResource BoolToVisibility}}" />
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
@@ -100,6 +109,7 @@
                                             CommandParameter="{Binding}"
                                             Visibility="{Binding IsEditable, Converter={StaticResource BoolToVisibility}}" />
                                 </Grid>
+                                </DockPanel>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

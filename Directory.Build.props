@@ -1,0 +1,6 @@
+<Project>
+  <!-- Embed debug symbols in Release so publishing yields just Scrapbook.exe. -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+</Project>

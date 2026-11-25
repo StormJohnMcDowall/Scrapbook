@@ -12,6 +12,14 @@
     <UseWPF>true</UseWPF>
     <!-- ThemeMode (Fluent theme) is marked experimental. -->
     <NoWarn>$(NoWarn);WPF0001</NoWarn>
+    <AssemblyName>Scrapbook</AssemblyName>
+  </PropertyGroup>
+
+  <!-- Release output: one framework-dependent Scrapbook.exe (uses the installed .NET 10 runtime). -->
+  <PropertyGroup>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>false</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
 </Project>
