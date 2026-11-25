@@ -181,6 +181,39 @@ public sealed class MainViewModelTests : IDisposable
     }
 
     [Fact]
+    public void Shutdown_WhenEverythingSaved_ClosesWithoutAsking()
+    {
+        Seed(Item("A"));
+        var vm = NewVm();
+        vm.IsEditing = true;
+        vm.Items[0].Body = "typed";
+
+        Assert.True(vm.Shutdown());
+        Assert.Empty(_dialogs.Confirms);
+    }
+
+    [Theory, InlineData(true), InlineData(false)]
+    public void Shutdown_WhenSaveStillFailing_AsksBeforeDiscardingEdits(bool userClosesAnyway)
+    {
+        Seed(Item("A", "v0"));
+        var itemsPath = new ItemStore(_dir.Path).ItemsPath;
+        var vm = NewVm();
+        vm.IsEditing = true;
+        _dialogs.ConfirmResult = userClosesAnyway;
+
+        bool canClose;
+        using (new FileStream(itemsPath, FileMode.Open, FileAccess.Read, FileShare.None))
+        {
+            vm.Items[0].Body = "v1";
+            vm.SaveIfDirty(); // first failure: SaveFailed shown
+            canClose = vm.Shutdown();
+        }
+
+        Assert.Equal([Messages.CloseWithUnsavedChanges], _dialogs.Confirms);
+        Assert.Equal(userClosesAnyway, canClose);
+    }
+
+    [Fact]
     public void HideFromScreenShare_OnlyChangesWhileEditing()
     {
         var vm = NewVm(new WindowSettings(HideFromScreenShare: true));

@@ -45,8 +45,12 @@ public partial class MainWindow : Window
 
     protected override void OnClosing(CancelEventArgs e)
     {
+        if (!_vm.Shutdown())
+        {
+            e.Cancel = true; // the user chose to stay open rather than lose unsaved edits
+            return;
+        }
         _saveTimer.Stop();
-        _vm.Shutdown();
         SaveSettings();
         base.OnClosing(e);
     }

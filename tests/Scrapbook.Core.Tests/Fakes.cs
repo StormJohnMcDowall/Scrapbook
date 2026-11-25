@@ -21,7 +21,7 @@ public sealed class FakeDialogs : IDialogService
     public List<string> Confirms { get; } = [];
     public List<string> Errors { get; } = [];
 
-    public bool Confirm(string message)
+    public bool Confirm(string message, string confirmText)
     {
         Confirms.Add(message);
         return ConfirmResult;

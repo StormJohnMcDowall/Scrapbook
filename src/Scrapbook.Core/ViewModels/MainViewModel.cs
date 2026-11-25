@@ -85,7 +85,7 @@ public partial class MainViewModel : ObservableObject
     private void DeleteItem(ItemViewModel? item)
     {
         if (item is null || !IsEditing || !Items.Contains(item)) return;
-        if (!_dialogs.Confirm(Messages.DeleteConfirm(item.Description))) return;
+        if (!_dialogs.Confirm(Messages.DeleteConfirm(item.Description), Messages.DeleteButton)) return;
 
         item.PropertyChanged -= OnItemPropertyChanged;
         Items.Remove(item);
@@ -122,7 +122,17 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
-    public void Shutdown() => SaveIfDirty();
+    /// <summary>
+    /// Saves pending edits before the app closes. Returns false if the user chose to keep the app
+    /// open because the edits still can't be saved. (After a failed load nothing can ever be saved,
+    /// and the user was already told, so closing is not questioned.)
+    /// </summary>
+    public bool Shutdown()
+    {
+        SaveIfDirty();
+        if (!HasUnsavedChanges || !_store.CanSave) return true;
+        return _dialogs.Confirm(Messages.CloseWithUnsavedChanges, Messages.CloseAnywayButton);
+    }
 
     private void SaveNow()
     {

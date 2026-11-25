@@ -11,6 +11,7 @@ public interface IClipboardService
 
 public interface IDialogService
 {
-    bool Confirm(string message);
+    /// <summary>Asks a yes/no question; <paramref name="confirmText"/> labels the confirming button.</summary>
+    bool Confirm(string message, string confirmText);
     void ShowError(string message);
 }

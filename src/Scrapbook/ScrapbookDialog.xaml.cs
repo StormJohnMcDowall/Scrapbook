@@ -28,8 +28,8 @@ public partial class ScrapbookDialog : Window
         }
     }
 
-    public static bool ShowConfirm(Window? owner, string message, bool hideFromCapture) =>
-        new ScrapbookDialog(owner, message, "Delete", showCancel: true, hideFromCapture).ShowDialog() == true;
+    public static bool ShowConfirm(Window? owner, string message, string confirmText, bool hideFromCapture) =>
+        new ScrapbookDialog(owner, message, confirmText, showCancel: true, hideFromCapture).ShowDialog() == true;
 
     public static void ShowError(Window? owner, string message, bool hideFromCapture) =>
         new ScrapbookDialog(owner, message, "OK", showCancel: false, hideFromCapture).ShowDialog();
