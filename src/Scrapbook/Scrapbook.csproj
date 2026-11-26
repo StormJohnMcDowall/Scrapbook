@@ -13,6 +13,9 @@
     <!-- ThemeMode (Fluent theme) is marked experimental. -->
     <NoWarn>$(NoWarn);WPF0001</NoWarn>
     <AssemblyName>Scrapbook</AssemblyName>
+    <!-- Exe icon; WPF windows without their own Icon use it for the title bar, taskbar and Alt+Tab.
+         Regenerate with tools/make-icon.ps1. -->
+    <ApplicationIcon>Scrapbook.ico</ApplicationIcon>
   </PropertyGroup>
 
   <!-- Release output: one framework-dependent Scrapbook.exe (uses the installed .NET 10 runtime). -->
