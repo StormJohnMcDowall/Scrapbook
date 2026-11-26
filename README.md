@@ -6,6 +6,13 @@ passwords) one click away, without showing your passwords to the audience.
 Each item has a **description**, a **body** (the text itself), a **Copy** button and a **Mask**
 checkbox. Masked bodies show as dots, like a password box.
 
+<p>
+  <img src="docs/images/scrapbook-light.png" width="400" alt="Scrapbook in light mode with the list locked: four items, two of them masked, each with a Copy button">
+  <img src="docs/images/scrapbook-dark-edit.png" width="400" alt="Scrapbook in dark mode with Edit turned on: editable descriptions, drag handles, delete buttons and an Add item button">
+</p>
+
+*Left: light mode, list locked (how it looks while presenting). Right: dark mode with **Edit** on.*
+
 ## Features
 
 - **One-click copy.** Click **Copy** to put an item's text on the clipboard. The button shows
