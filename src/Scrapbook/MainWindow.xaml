@@ -15,7 +15,7 @@
     <DockPanel>
         <!-- Top bar -->
         <Border DockPanel.Dock="Top" Padding="12,10" BorderThickness="0,0,0,1"
-                BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}">
+                BorderBrush="{DynamicResource DividerStrokeColorDefaultBrush}">
             <DockPanel LastChildFill="False">
                 <ToggleButton DockPanel.Dock="Right" Content="Edit" MinWidth="64"
                               IsChecked="{Binding IsEditing}" />

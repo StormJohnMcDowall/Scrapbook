@@ -4,6 +4,9 @@
              xmlns:local="clr-namespace:Scrapbook"
              ThemeMode="System"
              ShutdownMode="OnExplicitShutdown">
+    <!-- ThemeMode="System": light/dark follows Windows and switches live when it changes.
+         For any custom colours, use Fluent theme brushes via DynamicResource (e.g.
+         DividerStrokeColorDefaultBrush), not SystemColors, which stay light in dark mode. -->
     <Application.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
         <local:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibility" />
